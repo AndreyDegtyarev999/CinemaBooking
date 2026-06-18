@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="CinemaBooking.Application/CinemaBooking.Application.csproj" />
+  <Project Path="CinemaBooking.Desktop/CinemaBooking.Desktop.csproj" Id="10f97159-c473-4397-b3ec-c77996d6c5c1" />
+  <Project Path="CinemaBooking.Domain/CinemaBooking.Domain.csproj" />
+  <Project Path="CinemaBooking.Infrastructure/CinemaBooking.Infrastructure.csproj" />
+  <Project Path="CinemaBooking.Tests/CinemaBooking.Tests.csproj" />
+</Solution>
