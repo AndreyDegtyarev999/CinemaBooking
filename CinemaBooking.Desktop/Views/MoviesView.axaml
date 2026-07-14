@@ -36,6 +36,17 @@
             </StackPanel>
         </Border>
         
+        <!-- Кнопка добавления фильма -->
+        <Button Content="Добавить фильм" 
+                Click="OnAddMovieClick"
+                Width="180"
+                Height="40"
+                HorizontalAlignment="Left"
+                Margin="0,0,0,20"
+                Background="#4CAF50"
+                Foreground="White"
+                FontSize="14"/>
+        
         <TextBlock>
             <TextBlock.Text>
                 <Binding Path="Movies.Count" StringFormat="Найдено фильмов: {0}"/>

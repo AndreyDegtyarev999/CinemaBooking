@@ -1,5 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using Avalonia.VisualTree;
 using CinemaBooking.Application.Services;
 using CinemaBooking.Domain.Entities;
 using Microsoft.Extensions.DependencyInjection;
@@ -91,9 +92,16 @@ namespace CinemaBooking.Desktop.Views
             }
         }
 
-        private void OnAddSessionClick(object sender, RoutedEventArgs e)
+        private async void OnAddSessionClick(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("Открыть форму добавления сеанса");
+            var addSessionForm = new AddSessionView();
+            var window = this.GetVisualAncestors().OfType<Window>().FirstOrDefault();
+            var result = await addSessionForm.ShowDialog<bool>(window);
+
+            if (result)
+            {
+                LoadSessions();
+            }
         }
     }
 }

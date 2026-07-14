@@ -25,6 +25,16 @@ namespace CinemaBooking.Desktop.Views
             DataContext = this;
             LoadMovies();
         }
+        private async void OnAddMovieClick(object sender, RoutedEventArgs e)
+        {
+            var addMovieForm = new AddMovieView();
+            var result = await addMovieForm.ShowDialog<bool>(this.GetVisualAncestors().OfType<Window>().FirstOrDefault());
+
+            if (result)
+            {
+                LoadMovies();
+            }
+        }
 
         private async void LoadMovies()
         {

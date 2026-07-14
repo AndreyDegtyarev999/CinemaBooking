@@ -1,0 +1,65 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="600"
+        x:Class="CinemaBooking.Desktop.Views.AddMovieView"
+        Title="Добавление фильма"
+        Width="500" Height="600"
+        WindowStartupLocation="CenterScreen">
+
+	<StackPanel Margin="20">
+		<TextBlock Text="Добавление фильма" FontSize="24" FontWeight="Bold" Margin="0,0,0,20"/>
+
+		<!-- Название -->
+		<TextBlock Text="Название:" FontSize="14" Margin="0,0,0,5"/>
+		<TextBox x:Name="TitleTextBox"
+                 Height="35"
+                 Margin="0,0,0,15"/>
+
+		<!-- Жанр -->
+		<TextBlock Text="Жанр:" FontSize="14" Margin="0,0,0,5"/>
+		<TextBox x:Name="GenreTextBox"
+                 Height="35"
+                 Margin="0,0,0,15"/>
+
+		<!-- Описание -->
+		<TextBlock Text="Описание:" FontSize="14" Margin="0,0,0,5"/>
+		<TextBox x:Name="DescriptionTextBox"
+                 Height="80"
+                 TextWrapping="Wrap"
+                 AcceptsReturn="True"
+                 Margin="0,0,0,15"/>
+
+		<!-- Длительность -->
+		<TextBlock Text="Длительность (минут):" FontSize="14" Margin="0,0,0,5"/>
+		<TextBox x:Name="DurationTextBox"
+                 Height="35"
+                 Margin="0,0,0,15"/>
+
+		<!-- Дата выхода -->
+		<TextBlock Text="Дата выхода:" FontSize="14" Margin="0,0,0,5"/>
+		<DatePicker x:Name="ReleaseDatePicker"
+                    Height="35"
+                    Margin="0,0,0,20"/>
+
+		<!-- Кнопки -->
+		<Grid ColumnDefinitions="*,10,*">
+			<Button Grid.Column="0"
+                    Content="Добавить"
+                    Click="OnAddClick"
+                    Height="40"
+                    FontSize="16"
+                    Background="#4CAF50"
+                    Foreground="White"/>
+			<Button Grid.Column="2"
+                    Content="Отмена"
+                    Click="OnCancelClick"
+                    Height="40"
+                    FontSize="16"
+                    Background="#f44336"
+                    Foreground="White"/>
+		</Grid>
+	</StackPanel>
+
+</Window>

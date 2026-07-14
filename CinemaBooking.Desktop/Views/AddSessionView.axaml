@@ -1,0 +1,71 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:entities="clr-namespace:CinemaBooking.Domain.Entities;assembly=CinemaBooking.Domain"
+        xmlns:views="clr-namespace:CinemaBooking.Desktop.Views"
+        mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="600"
+        x:Class="CinemaBooking.Desktop.Views.AddSessionView"
+        x:DataType="views:AddSessionView"
+        Title="Добавление сеанса"
+        Width="500" Height="600"
+        WindowStartupLocation="CenterScreen">
+
+	<StackPanel Margin="20">
+		<TextBlock Text="Добавление сеанса" FontSize="24" FontWeight="Bold" Margin="0,0,0,20"/>
+
+		<!-- Выбор фильма -->
+		<TextBlock Text="Фильм:" FontSize="14" Margin="0,0,0,5"/>
+		<ListBox x:Name="MovieListBox"
+                 ItemsSource="{Binding Movies}"
+                 Height="100"
+                 Margin="0,0,0,15">
+			<ListBox.ItemTemplate>
+				<DataTemplate x:DataType="entities:Movie">
+					<TextBlock Text="{Binding Title}"/>
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+		</ListBox>
+
+		<!-- Выбор зала -->
+		<TextBlock Text="Зал:" FontSize="14" Margin="0,0,0,5"/>
+		<ListBox x:Name="HallListBox"
+                 ItemsSource="{Binding Halls}"
+                 Height="80"
+                 Margin="0,0,0,15">
+			<ListBox.ItemTemplate>
+				<DataTemplate x:DataType="entities:Hall">
+					<TextBlock Text="{Binding Name}"/>
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+		</ListBox>
+
+		<!-- Дата и время начала -->
+		<TextBlock Text="Дата и время начала:" FontSize="14" Margin="0,0,0,5"/>
+		<DatePicker x:Name="StartDatePicker"
+                    Height="35"
+                    Margin="0,0,0,10"/>
+		<TimePicker x:Name="StartTimePicker"
+                    Height="35"
+                    Margin="0,0,0,15"/>
+
+		<!-- Кнопки -->
+		<Grid ColumnDefinitions="*,10,*">
+			<Button Grid.Column="0"
+                    Content="Добавить"
+                    Click="OnAddClick"
+                    Height="40"
+                    FontSize="16"
+                    Background="#4CAF50"
+                    Foreground="White"/>
+			<Button Grid.Column="2"
+                    Content="Отмена"
+                    Click="OnCancelClick"
+                    Height="40"
+                    FontSize="16"
+                    Background="#f44336"
+                    Foreground="White"/>
+		</Grid>
+	</StackPanel>
+
+</Window>
