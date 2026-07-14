@@ -4,12 +4,16 @@ using CinemaBooking.Application.Services;
 using CinemaBooking.Domain.Entities;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace CinemaBooking.Desktop.Views
 {
     public partial class HallsView : UserControl
     {
         public ObservableCollection<Hall> Halls { get; set; } = new();
+
+        private List<Hall> _allHalls = new();
 
         public HallsView()
         {
@@ -23,18 +27,48 @@ namespace CinemaBooking.Desktop.Views
             var serviceProvider = App.ServiceProvider;
             var hallService = serviceProvider.GetRequiredService<IHallService>();
 
-            var halls = await hallService.GetAllHallsAsync();
+            _allHalls = (await hallService.GetAllHallsAsync()).ToList();
 
             Halls.Clear();
-            foreach (var hall in halls)
+            foreach (var hall in _allHalls)
             {
                 Halls.Add(hall);
             }
         }
 
-        private void OnAddHallClick(object sender, RoutedEventArgs e)
+        public void OnSearchClick(object sender, RoutedEventArgs e)  // ← ЭТОТ МЕТОД ДОЛЖЕН БЫТЬ!
         {
-            // Пока просто сообщение - позже создадим форму добавления
+            var searchTextBox = this.FindControl<TextBox>("SearchTextBox");
+            var searchText = searchTextBox?.Text?.ToLower() ?? string.Empty;
+
+            Halls.Clear();
+            var filteredHalls = _allHalls
+                .Where(h => h.Name.ToLower().Contains(searchText))
+                .ToList();
+
+            foreach (var hall in filteredHalls)
+            {
+                Halls.Add(hall);
+            }
+        }
+
+        public void OnShowAllClick(object sender, RoutedEventArgs e)  // ← И ЭТОТ ТОЖЕ!
+        {
+            Halls.Clear();
+            foreach (var hall in _allHalls)
+            {
+                Halls.Add(hall);
+            }
+
+            var searchTextBox = this.FindControl<TextBox>("SearchTextBox");
+            if (searchTextBox != null)
+            {
+                searchTextBox.Text = string.Empty;
+            }
+        }
+
+        public void OnAddHallClick(object sender, RoutedEventArgs e)
+        {
             System.Diagnostics.Debug.WriteLine("Открыть форму добавления зала");
         }
     }

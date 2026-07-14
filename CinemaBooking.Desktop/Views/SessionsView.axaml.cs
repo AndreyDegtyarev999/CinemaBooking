@@ -4,12 +4,16 @@ using CinemaBooking.Application.Services;
 using CinemaBooking.Domain.Entities;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace CinemaBooking.Desktop.Views
 {
     public partial class SessionsView : UserControl
     {
         public ObservableCollection<Session> Sessions { get; set; } = new();
+
+        private List<Session> _allSessions = new();
 
         public SessionsView()
         {
@@ -23,12 +27,44 @@ namespace CinemaBooking.Desktop.Views
             var serviceProvider = App.ServiceProvider;
             var sessionService = serviceProvider.GetRequiredService<ISessionService>();
 
-            var sessions = await sessionService.GetAllSessionsAsync();
+            _allSessions = (await sessionService.GetAllSessionsAsync()).ToList();
 
             Sessions.Clear();
-            foreach (var session in sessions)
+            foreach (var session in _allSessions)
             {
                 Sessions.Add(session);
+            }
+        }
+
+        private void OnSearchClick(object sender, RoutedEventArgs e)
+        {
+            var searchTextBox = this.FindControl<TextBox>("SearchTextBox");
+            var searchText = searchTextBox?.Text?.ToLower() ?? string.Empty;
+
+            Sessions.Clear();
+            var filteredSessions = _allSessions
+                .Where(s => s.Movie.Title.ToLower().Contains(searchText) ||
+                           s.Hall.Name.ToLower().Contains(searchText))
+                .ToList();
+
+            foreach (var session in filteredSessions)
+            {
+                Sessions.Add(session);
+            }
+        }
+
+        private void OnShowAllClick(object sender, RoutedEventArgs e)
+        {
+            Sessions.Clear();
+            foreach (var session in _allSessions)
+            {
+                Sessions.Add(session);
+            }
+
+            var searchTextBox = this.FindControl<TextBox>("SearchTextBox");
+            if (searchTextBox != null)
+            {
+                searchTextBox.Text = string.Empty;
             }
         }
 
