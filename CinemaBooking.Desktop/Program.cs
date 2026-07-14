@@ -52,11 +52,14 @@ namespace CinemaBooking.Desktop
                 var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
                 context.Database.EnsureCreated();
 
+                // Объявляем сервисы ОДИН раз в начале
+                var movieService = scope.ServiceProvider.GetRequiredService<IMovieService>();
+                var hallService = scope.ServiceProvider.GetRequiredService<IHallService>();
+                var sessionService = scope.ServiceProvider.GetRequiredService<ISessionService>();
+
                 // Добавляем тестовые фильмы, если база пустая
                 if (!context.Movies.Any())
                 {
-                    var movieService = scope.ServiceProvider.GetRequiredService<IMovieService>();
-
                     await movieService.AddMovieAsync(new Movie
                     {
                         Id = Guid.NewGuid(),
@@ -86,6 +89,68 @@ namespace CinemaBooking.Desktop
                         ReleaseDate = new DateTime(2008, 7, 18),
                         Genre = "Боевик, Триллер"
                     });
+                }
+
+                // Добавляем тестовые залы, если база пустая
+                if (!context.Halls.Any())
+                {
+                    await hallService.AddHallAsync(new Hall
+                    {
+                        Id = Guid.NewGuid(),
+                        Name = "Зал IMAX",
+                    });
+
+                    await hallService.AddHallAsync(new Hall
+                    {
+                        Id = Guid.NewGuid(),
+                        Name = "Зал VIP",
+                    });
+
+                    await hallService.AddHallAsync(new Hall
+                    {
+                        Id = Guid.NewGuid(),
+                        Name = "Зал 3D",
+                    });
+                }
+
+                // Добавляем тестовые сеансы, если база пустая
+                if (!context.Sessions.Any())
+                {
+                    var movies = (await movieService.GetAllMoviesAsync()).ToList();
+                    var halls = (await hallService.GetAllHallsAsync()).ToList();
+
+                    if (movies.Any() && halls.Any())
+                    {
+                        // Сеанс 1: Начало в IMAX
+                        await sessionService.AddSessionAsync(new Session
+                        {
+                            Id = Guid.NewGuid(),
+                            MovieId = movies[0].Id,
+                            HallId = halls[0].Id,
+                            StartTime = DateTime.Today.AddHours(18),
+                            EndTime = DateTime.Today.AddHours(18).AddMinutes(148),
+                        });
+
+                        // Сеанс 2: Интерстеллар в VIP
+                        await sessionService.AddSessionAsync(new Session
+                        {
+                            Id = Guid.NewGuid(),
+                            MovieId = movies[1].Id,
+                            HallId = halls[1].Id,
+                            StartTime = DateTime.Today.AddHours(20),
+                            EndTime = DateTime.Today.AddHours(20).AddMinutes(169),
+                        });
+
+                        // Сеанс 3: Тёмный рыцарь в 3D
+                        await sessionService.AddSessionAsync(new Session
+                        {
+                            Id = Guid.NewGuid(),
+                            MovieId = movies[2].Id,
+                            HallId = halls[2].Id,
+                            StartTime = DateTime.Today.AddHours(19),
+                            EndTime = DateTime.Today.AddHours(19).AddMinutes(152),
+                        });
+                    }
                 }
             }
 

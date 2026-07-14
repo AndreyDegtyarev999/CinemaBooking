@@ -1,0 +1,50 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:entities="clr-namespace:CinemaBooking.Domain.Entities;assembly=CinemaBooking.Domain"
+             xmlns:views="clr-namespace:CinemaBooking.Desktop.Views"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+             x:Class="CinemaBooking.Desktop.Views.SessionsView"
+             x:DataType="views:SessionsView">
+
+	<StackPanel Margin="20">
+		<TextBlock Text="Сеансы" FontSize="28" FontWeight="Bold" Margin="0,0,0,20"/>
+
+		<Button Content="Добавить сеанс"
+                Click="OnAddSessionClick"
+                Width="150"
+                HorizontalAlignment="Left"
+                Margin="0,0,0,20"/>
+
+		<ListBox ItemsSource="{Binding Sessions}"
+                 Height="400"
+                 BorderBrush="Gray"
+                 BorderThickness="1">
+			<ListBox.ItemTemplate>
+				<DataTemplate x:DataType="entities:Session">
+					<StackPanel Margin="10">
+						<TextBlock Text="{Binding Movie.Title}" FontWeight="Bold" FontSize="16"/>
+						<TextBlock>
+							<TextBlock.Text>
+								<Binding Path="Hall.Name" StringFormat="Зал: {0}"/>
+							</TextBlock.Text>
+						</TextBlock>
+						<TextBlock>
+							<TextBlock.Text>
+								<Binding Path="StartTime" StringFormat="Время начала: {0:dd.MM.yyyy HH:mm}"/>
+							</TextBlock.Text>
+						</TextBlock>
+						<TextBlock>
+							<TextBlock.Text>
+								<Binding Path="EndTime" StringFormat="Время окончания: {0:dd.MM.yyyy HH:mm}"/>
+							</TextBlock.Text>
+						</TextBlock>
+						<Border Height="1" Background="LightGray" Margin="0,10,0,0"/>
+					</StackPanel>
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+		</ListBox>
+	</StackPanel>
+
+</UserControl>

@@ -18,24 +18,12 @@ namespace CinemaBooking.Desktop
 
         private void OnHallsClick(object sender, RoutedEventArgs e)
         {
-            MainContent.Content = new TextBlock
-            {
-                Text = "Страница залов (в разработке)",
-                HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center,
-                VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center,  // ← ИСПРАВЛЕНО!
-                FontSize = 24
-            };
+            MainContent.Content = new HallsView();
         }
 
         private void OnSessionsClick(object sender, RoutedEventArgs e)
         {
-            MainContent.Content = new TextBlock
-            {
-                Text = "Страница сеансов (в разработке)",
-                HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center,
-                VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center,  // ← ИСПРАВЛЕНО!
-                FontSize = 24
-            };
+            MainContent.Content = new SessionsView();
         }
 
         private void OnBookingsClick(object sender, RoutedEventArgs e)
