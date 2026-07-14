@@ -52,12 +52,14 @@ namespace CinemaBooking.Desktop
                 var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
                 context.Database.EnsureCreated();
 
-                // Объявляем сервисы ОДИН раз в начале
+                // Объявляем ВСЕ сервисы ОДИН раз в начале
                 var movieService = scope.ServiceProvider.GetRequiredService<IMovieService>();
                 var hallService = scope.ServiceProvider.GetRequiredService<IHallService>();
                 var sessionService = scope.ServiceProvider.GetRequiredService<ISessionService>();
+                var bookingService = scope.ServiceProvider.GetRequiredService<IBookingService>();
+                var userService = scope.ServiceProvider.GetRequiredService<IUserService>();
 
-                // Добавляем тестовые фильмы, если база пустая
+                // Добавляем тестовые фильмы
                 if (!context.Movies.Any())
                 {
                     await movieService.AddMovieAsync(new Movie
@@ -91,7 +93,7 @@ namespace CinemaBooking.Desktop
                     });
                 }
 
-                // Добавляем тестовые залы, если база пустая
+                // Добавляем тестовые залы
                 if (!context.Halls.Any())
                 {
                     await hallService.AddHallAsync(new Hall
@@ -113,7 +115,7 @@ namespace CinemaBooking.Desktop
                     });
                 }
 
-                // Добавляем тестовые сеансы, если база пустая
+                // Добавляем тестовые сеансы
                 if (!context.Sessions.Any())
                 {
                     var movies = (await movieService.GetAllMoviesAsync()).ToList();
@@ -121,7 +123,6 @@ namespace CinemaBooking.Desktop
 
                     if (movies.Any() && halls.Any())
                     {
-                        // Сеанс 1: Начало в IMAX
                         await sessionService.AddSessionAsync(new Session
                         {
                             Id = Guid.NewGuid(),
@@ -131,7 +132,6 @@ namespace CinemaBooking.Desktop
                             EndTime = DateTime.Today.AddHours(18).AddMinutes(148),
                         });
 
-                        // Сеанс 2: Интерстеллар в VIP
                         await sessionService.AddSessionAsync(new Session
                         {
                             Id = Guid.NewGuid(),
@@ -141,7 +141,6 @@ namespace CinemaBooking.Desktop
                             EndTime = DateTime.Today.AddHours(20).AddMinutes(169),
                         });
 
-                        // Сеанс 3: Тёмный рыцарь в 3D
                         await sessionService.AddSessionAsync(new Session
                         {
                             Id = Guid.NewGuid(),
@@ -150,6 +149,50 @@ namespace CinemaBooking.Desktop
                             StartTime = DateTime.Today.AddHours(19),
                             EndTime = DateTime.Today.AddHours(19).AddMinutes(152),
                         });
+                    }
+                }
+
+                // Добавляем тестовые бронирования
+                if (!context.Bookings.Any())
+                {
+                    var sessions = (await sessionService.GetAllSessionsAsync()).ToList();
+
+                    if (sessions.Any())
+                    {
+                        // Создаём тестового пользователя (упрощённо)
+                        var testUser = new User
+                        {
+                            Id = Guid.NewGuid(),
+                            Email = "test@example.com",
+                            PasswordHash = "hashed_password",
+                            Role = Domain.Enums.UserRole.Customer
+                        };
+
+                        await userService.AddUserAsync(testUser);
+                        var users = (await userService.GetAllUsersAsync()).ToList();
+
+                        if (users.Any())
+                        {
+                            // Бронирование 1
+                            await bookingService.AddBookingAsync(new Booking
+                            {
+                                Id = Guid.NewGuid(),
+                                UserId = users[0].Id,
+                                SessionId = sessions[0].Id,
+                                Status = Domain.Enums.BookingStatus.Pending,
+                                CreatedAt = DateTime.Now
+                            });
+
+                            // Бронирование 2
+                            await bookingService.AddBookingAsync(new Booking
+                            {
+                                Id = Guid.NewGuid(),
+                                UserId = users[0].Id,
+                                SessionId = sessions[1].Id,
+                                Status = Domain.Enums.BookingStatus.Paid,
+                                CreatedAt = DateTime.Now
+                            });
+                        }
                     }
                 }
             }

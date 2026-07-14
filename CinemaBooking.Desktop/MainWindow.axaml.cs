@@ -28,13 +28,7 @@ namespace CinemaBooking.Desktop
 
         private void OnBookingsClick(object sender, RoutedEventArgs e)
         {
-            MainContent.Content = new TextBlock
-            {
-                Text = "Страница бронирований (в разработке)",
-                HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center,
-                VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center,  // ← ИСПРАВЛЕНО!
-                FontSize = 24
-            };
+            MainContent.Content = new BookingsView();
         }
     }
 }
