@@ -45,11 +45,48 @@ namespace CinemaBooking.Desktop
             services.AddScoped<ITicketService, TicketService>();
 
             var serviceProvider = services.BuildServiceProvider();
+            App.ServiceProvider = serviceProvider;
 
             using (var scope = serviceProvider.CreateScope())
             {
                 var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
                 context.Database.EnsureCreated();
+
+                // Добавляем тестовые фильмы, если база пустая
+                if (!context.Movies.Any())
+                {
+                    var movieService = scope.ServiceProvider.GetRequiredService<IMovieService>();
+
+                    await movieService.AddMovieAsync(new Movie
+                    {
+                        Id = Guid.NewGuid(),
+                        Title = "Начало",
+                        Description = "Фантастический триллер Кристофера Нолана о ворах, которые проникают в сны",
+                        Duration = 148,
+                        ReleaseDate = new DateTime(2010, 7, 16),
+                        Genre = "Фантастика, Триллер"
+                    });
+
+                    await movieService.AddMovieAsync(new Movie
+                    {
+                        Id = Guid.NewGuid(),
+                        Title = "Интерстеллар",
+                        Description = "Группа исследователей путешествует через червоточину в космосе",
+                        Duration = 169,
+                        ReleaseDate = new DateTime(2014, 11, 7),
+                        Genre = "Фантастика, Драма"
+                    });
+
+                    await movieService.AddMovieAsync(new Movie
+                    {
+                        Id = Guid.NewGuid(),
+                        Title = "Тёмный рыцарь",
+                        Description = "Бэтмен против Джокера в борьбе за душу Готэма",
+                        Duration = 152,
+                        ReleaseDate = new DateTime(2008, 7, 18),
+                        Genre = "Боевик, Триллер"
+                    });
+                }
             }
 
             BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);

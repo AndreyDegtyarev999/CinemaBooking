@@ -2,8 +2,26 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        xmlns:views="clr-namespace:CinemaBooking.Desktop.Views;assembly=CinemaBooking.Desktop"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
         x:Class="CinemaBooking.Desktop.MainWindow"
-        Title="CinemaBooking.Desktop">
-    Welcome to Avalonia!
+        x:CompileBindings="True"
+        Title="Cinema Booking System"
+        Width="800" Height="600">
+
+	<DockPanel>
+		<!-- Верхнее меню -->
+		<Menu DockPanel.Dock="Top">
+			<MenuItem Header="Фильмы" Click="OnMoviesClick"/>
+			<MenuItem Header="Залы" Click="OnHallsClick"/>
+			<MenuItem Header="Сеансы" Click="OnSessionsClick"/>
+			<MenuItem Header="Бронирования" Click="OnBookingsClick"/>
+		</Menu>
+
+		<!-- Основной контент -->
+		<ContentControl x:Name="MainContent">
+			<views:MoviesView/>
+		</ContentControl>
+	</DockPanel>
+
 </Window>

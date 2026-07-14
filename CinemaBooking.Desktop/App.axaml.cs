@@ -1,11 +1,15 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace CinemaBooking.Desktop
 {
     public partial class App : Avalonia.Application
     {
+        public static IServiceProvider ServiceProvider { get; set; }
+
         public override void Initialize()
         {
             AvaloniaXamlLoader.Load(this);
