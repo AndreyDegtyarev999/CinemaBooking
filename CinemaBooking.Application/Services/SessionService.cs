@@ -40,6 +40,22 @@ namespace CinemaBooking.Application.Services
 
         public async Task AddSessionAsync(Session session)
         {
+            // Валидация
+            if (session == null)
+                throw new ArgumentNullException(nameof(session));
+
+            if (session.MovieId == Guid.Empty)
+                throw new ArgumentException("ID фильма не может быть пустым");
+
+            if (session.HallId == Guid.Empty)
+                throw new ArgumentException("ID зала не может быть пустым");
+
+            if (session.StartTime >= session.EndTime)
+                throw new ArgumentException("Время начала должно быть раньше времени окончания");
+
+            if (session.StartTime < DateTime.Now)
+                throw new ArgumentException("Сеанс не может быть в прошлом");
+
             await _sessionRepository.AddAsync(session);
         }
 

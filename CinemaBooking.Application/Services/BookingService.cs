@@ -31,8 +31,16 @@ namespace CinemaBooking.Application.Services
 
         public async Task AddBookingAsync(Booking booking)
         {
-            booking.Status = BookingStatus.Pending;
-            booking.CreatedAt = DateTime.Now;
+            // Валидация
+            if (booking == null)
+                throw new ArgumentNullException(nameof(booking));
+
+            if (booking.UserId == Guid.Empty)
+                throw new ArgumentException("ID пользователя не может быть пустым");
+
+            if (booking.SessionId == Guid.Empty)
+                throw new ArgumentException("ID сеанса не может быть пустым");
+
             await _bookingRepository.AddAsync(booking);
         }
         public async Task DeleteAsync(Guid id)

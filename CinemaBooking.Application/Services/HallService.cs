@@ -28,10 +28,13 @@ namespace CinemaBooking.Application.Services
 
         public async Task AddHallAsync(Hall hall)
         {
+            // Валидация
+            if (hall == null)
+                throw new ArgumentNullException(nameof(hall));
+
             if (string.IsNullOrWhiteSpace(hall.Name))
-            {
                 throw new ArgumentException("Название зала не может быть пустым");
-            }
+
             await _hallRepository.AddAsync(hall);
         }
 

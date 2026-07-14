@@ -24,10 +24,15 @@ namespace CinemaBooking.Application.Services
 
         public async Task AddMovieAsync(Movie movie)
         {
+            // Валидация
+            if (movie == null)
+                throw new ArgumentNullException(nameof(movie));
+
             if (string.IsNullOrWhiteSpace(movie.Title))
-            {
                 throw new ArgumentException("Название фильма не может быть пустым");
-            }
+
+            if (movie.Duration <= 0)
+                throw new ArgumentException("Длительность фильма должна быть больше 0");
 
             await _movieRepository.AddAsync(movie);
         }
