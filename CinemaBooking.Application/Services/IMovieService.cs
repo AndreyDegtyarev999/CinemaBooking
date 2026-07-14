@@ -7,7 +7,7 @@ namespace CinemaBooking.Application.Services
         Task<IEnumerable<Movie>> GetAllMoviesAsync();
 
         Task<Movie?> GetMovieByIdAsync(Guid id);
-
+        Task DeleteMovieAsync(Guid id);
         Task AddMovieAsync(Movie movie);
     }
 }

@@ -6,6 +6,10 @@ namespace CinemaBooking.Application.Services
     public class HallService : IHallService
     {
         private readonly IHallRepository _hallRepository;
+        public async Task DeleteAsync(Guid id)
+        {
+            await _hallRepository.DeleteAsync(id);
+        }
 
         public HallService(IHallRepository hallRepository)
         {

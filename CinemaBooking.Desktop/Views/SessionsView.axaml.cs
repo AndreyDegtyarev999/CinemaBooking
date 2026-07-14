@@ -3,9 +3,10 @@ using Avalonia.Interactivity;
 using CinemaBooking.Application.Services;
 using CinemaBooking.Domain.Entities;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Collections.Generic;
 
 namespace CinemaBooking.Desktop.Views
 {
@@ -21,7 +22,29 @@ namespace CinemaBooking.Desktop.Views
             DataContext = this;
             LoadSessions();
         }
+        private async void OnDeleteSessionClick(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            if (button == null) return;
 
+            var session = button.DataContext as Session;
+            if (session == null) return;
+
+            try
+            {
+                var serviceProvider = App.ServiceProvider;
+                var sessionService = serviceProvider.GetRequiredService<ISessionService>();
+
+                await sessionService.DeleteAsync(session.Id);
+
+                Sessions.Remove(session);
+                _allSessions.Remove(session);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Ошибка при удалении: {ex.Message}");
+            }
+        }
         private async void LoadSessions()
         {
             var serviceProvider = App.ServiceProvider;

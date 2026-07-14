@@ -9,5 +9,6 @@ namespace CinemaBooking.Application.Services
         Task AddHallAsync(Hall hall);
         Task UpdateHallAsync(Hall hall);
         Task DeleteHallAsync(Guid id);
+        Task DeleteAsync(Guid id);
     }
 }

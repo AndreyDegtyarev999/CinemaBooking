@@ -31,5 +31,9 @@ namespace CinemaBooking.Application.Services
 
             await _movieRepository.AddAsync(movie);
         }
+        public async Task DeleteMovieAsync(Guid id)
+        {
+            await _movieRepository.DeleteAsync(id);
+        }
     }
 }

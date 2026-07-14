@@ -3,9 +3,10 @@ using Avalonia.Interactivity;
 using CinemaBooking.Application.Services;
 using CinemaBooking.Domain.Entities;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Collections.Generic;
 
 namespace CinemaBooking.Desktop.Views
 {
@@ -64,6 +65,29 @@ namespace CinemaBooking.Desktop.Views
             if (searchTextBox != null)
             {
                 searchTextBox.Text = string.Empty;
+            }
+        }
+        private async void OnDeleteHallClick(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            if (button == null) return;
+
+            var hall = button.DataContext as Hall;
+            if (hall == null) return;
+
+            try
+            {
+                var serviceProvider = App.ServiceProvider;
+                var hallService = serviceProvider.GetRequiredService<IHallService>();
+
+                await hallService.DeleteAsync(hall.Id);
+
+                Halls.Remove(hall);
+                _allHalls.Remove(hall);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Ошибка при удалении: {ex.Message}");
             }
         }
 

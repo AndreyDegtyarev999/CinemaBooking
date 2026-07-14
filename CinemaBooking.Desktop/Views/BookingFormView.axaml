@@ -1,0 +1,82 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:entities="clr-namespace:CinemaBooking.Domain.Entities;assembly=CinemaBooking.Domain"
+        xmlns:views="clr-namespace:CinemaBooking.Desktop.Views"
+        mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="700"
+        x:Class="CinemaBooking.Desktop.Views.BookingFormView"
+        x:DataType="views:BookingFormView"
+        Title="Создание бронирования"
+        Width="600" Height="700"
+        WindowStartupLocation="CenterScreen">
+
+	<StackPanel Margin="20">
+		<TextBlock Text="Создание бронирования" FontSize="24" FontWeight="Bold" Margin="0,0,0,20"/>
+
+		<!-- Выбор пользователя -->
+		<TextBlock Text="Пользователь:" FontSize="14" Margin="0,0,0,5"/>
+		<ListBox x:Name="UserListBox"
+                 ItemsSource="{Binding Users}"
+                 Height="80"
+                 Margin="0,0,0,15">
+			<ListBox.ItemTemplate>
+				<DataTemplate x:DataType="entities:User">
+					<TextBlock>
+						<TextBlock.Text>
+							<Binding Path="Email"/>
+						</TextBlock.Text>
+					</TextBlock>
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+		</ListBox>
+
+		<!-- Выбор сеанса -->
+		<TextBlock Text="Сеанс:" FontSize="14" Margin="0,0,0,5"/>
+		<ListBox x:Name="SessionListBox"
+                 ItemsSource="{Binding Sessions}"
+                 Height="150"
+                 Margin="0,0,0,15">
+			<ListBox.ItemTemplate>
+				<DataTemplate x:DataType="entities:Session">
+					<StackPanel>
+						<TextBlock FontWeight="Bold">
+							<TextBlock.Text>
+								<Binding Path="Movie.Title"/>
+							</TextBlock.Text>
+						</TextBlock>
+						<TextBlock>
+							<TextBlock.Text>
+								<Binding Path="Hall.Name" StringFormat="Зал: {0}"/>
+							</TextBlock.Text>
+						</TextBlock>
+						<TextBlock>
+							<TextBlock.Text>
+								<Binding Path="StartTime" StringFormat="Время: {0:dd.MM.yyyy HH:mm}"/>
+							</TextBlock.Text>
+						</TextBlock>
+					</StackPanel>
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+		</ListBox>
+
+		<!-- Кнопки -->
+		<Grid ColumnDefinitions="*,10,*">
+			<Button Grid.Column="0"
+                    Content="Забронировать"
+                    Click="OnBookClick"
+                    Height="40"
+                    FontSize="16"
+                    Background="#4CAF50"
+                    Foreground="White"/>
+			<Button Grid.Column="2"
+                    Content="Отмена"
+                    Click="OnCancelClick"
+                    Height="40"
+                    FontSize="16"
+                    Background="#f44336"
+                    Foreground="White"/>
+		</Grid>
+	</StackPanel>
+
+</Window>

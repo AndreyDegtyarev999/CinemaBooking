@@ -23,39 +23,49 @@
                  BorderThickness="1">
 			<ListBox.ItemTemplate>
 				<DataTemplate x:DataType="entities:Booking">
-					<StackPanel Margin="10">
-						<TextBlock>
-							<TextBlock.Text>
-								<Binding Path="Id" StringFormat="ID бронирования: {0}"/>
-							</TextBlock.Text>
-						</TextBlock>
-						<TextBlock>
-							<TextBlock.Text>
-								<Binding Path="User.Email" StringFormat="Пользователь: {0}"/>
-							</TextBlock.Text>
-						</TextBlock>
-						<TextBlock>
-							<TextBlock.Text>
-								<Binding Path="Session.Movie.Title" StringFormat="Фильм: {0}"/>
-							</TextBlock.Text>
-						</TextBlock>
-						<TextBlock>
-							<TextBlock.Text>
-								<Binding Path="Session.StartTime" StringFormat="Время сеанса: {0:dd.MM.yyyy HH:mm}"/>
-							</TextBlock.Text>
-						</TextBlock>
-						<TextBlock>
-							<TextBlock.Text>
-								<Binding Path="Status" StringFormat="Статус: {0}"/>
-							</TextBlock.Text>
-						</TextBlock>
-						<TextBlock>
-							<TextBlock.Text>
-								<Binding Path="CreatedAt" StringFormat="Создано: {0:dd.MM.yyyy HH:mm}"/>
-							</TextBlock.Text>
-						</TextBlock>
-						<Border Height="1" Background="LightGray" Margin="0,10,0,0"/>
-					</StackPanel>
+					<Grid ColumnDefinitions="*,120">
+						<StackPanel Margin="10">
+							<TextBlock>
+								<TextBlock.Text>
+									<Binding Path="Id" StringFormat="ID бронирования: {0}"/>
+								</TextBlock.Text>
+							</TextBlock>
+							<TextBlock>
+								<TextBlock.Text>
+									<Binding Path="User.Email" StringFormat="Пользователь: {0}"/>
+								</TextBlock.Text>
+							</TextBlock>
+							<TextBlock>
+								<TextBlock.Text>
+									<Binding Path="Session.Movie.Title" StringFormat="Фильм: {0}"/>
+								</TextBlock.Text>
+							</TextBlock>
+							<TextBlock>
+								<TextBlock.Text>
+									<Binding Path="Session.StartTime" StringFormat="Время сеанса: {0:dd.MM.yyyy HH:mm}"/>
+								</TextBlock.Text>
+							</TextBlock>
+							<TextBlock>
+								<TextBlock.Text>
+									<Binding Path="Status" StringFormat="Статус: {0}"/>
+								</TextBlock.Text>
+							</TextBlock>
+							<TextBlock>
+								<TextBlock.Text>
+									<Binding Path="CreatedAt" StringFormat="Создано: {0:dd.MM.yyyy HH:mm}"/>
+								</TextBlock.Text>
+							</TextBlock>
+						</StackPanel>
+						<Button Grid.Column="1"
+								Content="Удалить"
+								Click="OnDeleteBookingClick"
+								Height="35"
+								Background="#f44336"
+								Foreground="White"
+								Margin="10"
+								HorizontalAlignment="Right"
+								VerticalAlignment="Center"/>
+					</Grid>
 				</DataTemplate>
 			</ListBox.ItemTemplate>
 		</ListBox>

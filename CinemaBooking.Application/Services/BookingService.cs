@@ -35,6 +35,10 @@ namespace CinemaBooking.Application.Services
             booking.CreatedAt = DateTime.Now;
             await _bookingRepository.AddAsync(booking);
         }
+        public async Task DeleteAsync(Guid id)
+        {
+            await _bookingRepository.DeleteAsync(id);
+        }
 
         public async Task UpdateBookingAsync(Booking booking)
         {

@@ -11,5 +11,6 @@ namespace CinemaBooking.Application.Services
         Task UpdateBookingAsync(Booking booking);
         Task DeleteBookingAsync(Guid id);
         Task CancelBookingAsync(Guid id);
+        Task DeleteAsync(Guid id);
     }
 }

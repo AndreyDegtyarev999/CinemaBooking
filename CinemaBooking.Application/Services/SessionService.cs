@@ -33,6 +33,10 @@ namespace CinemaBooking.Application.Services
             var sessions = await _sessionRepository.GetAllAsync();
             return sessions.Where(s => s.StartTime.Date == date.Date);
         }
+        public async Task DeleteAsync(Guid id)
+        {
+            await _sessionRepository.DeleteAsync(id);
+        }
 
         public async Task AddSessionAsync(Session session)
         {
